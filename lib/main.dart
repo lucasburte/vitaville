@@ -3,7 +3,7 @@ import 'package:vitaville/actu_page.dart';
 import 'package:vitaville/signalements_page.dart';
 import 'package:vitaville/idees_page.dart';
 import 'package:vitaville/sondages_page.dart';
-import 'package:vitaville/profile_page.dart';
+import 'package:vitaville/Profile/profile_page.dart';
 import 'package:vitaville/accueil_page.dart';
 
 void main() {
