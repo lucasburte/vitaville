@@ -8,7 +8,14 @@ class AccueilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("VitaVille - Accueil"),
+        title: const Text(
+          "VitaVille - Accueil",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFFBFE),
+        elevation: 0,
         centerTitle: true,
       ),
       body: const RootPage(),
