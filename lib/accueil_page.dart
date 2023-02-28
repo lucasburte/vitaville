@@ -9,6 +9,7 @@ class AccueilPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("VitaVille - Accueil"),
+        centerTitle: true,
       ),
       body: const RootPage(),
     );
