@@ -38,7 +38,6 @@ class _AccueilPageState extends State<RootPage> {
           width: size.width,
           child: Column(
             children: [
-              //Buttons for redirections
               Column(
                 children: [
                   const Text(
@@ -57,27 +56,32 @@ class _AccueilPageState extends State<RootPage> {
                     ),
                   ),
 
+                  const Text(
+                    '\n<Barre de recherche ici>',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+
                   //Espacement
                   const SizedBox(
                     height: 10,
                   ),
 
-                  //Bouton Actualités favorites
+                  //Bouton Créer un Compte
                   SizedBox(
                     width: size.width,
                     height: 50,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.star_border_outlined,
-                        color: Colors.black,
-                        size: 24.0,
-                        semanticLabel: 'Créer un compte',
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6750A4),
                       ),
-                      label: const Text(
+                      onPressed: () {},
+                      child: const Text(
                         'Créer un compte',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
@@ -89,19 +93,16 @@ class _AccueilPageState extends State<RootPage> {
                     height: 10,
                   ),
 
-                  //Bouton Mon calendrier
+                  //Bouton Se Connecter
                   SizedBox(
                     width: double.infinity,
                     height: 50,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black,
-                        size: 24.0,
-                        semanticLabel: 'Se Connecter',
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE8DEF8),
                       ),
-                      label: const Text(
+                      onPressed: () {},
+                      child: const Text(
                         'Se Connecter',
                         style: TextStyle(
                           color: Colors.black,
