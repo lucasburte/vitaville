@@ -9,14 +9,15 @@ class AccueilPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "VitaVille - Accueil",
+          "VitaVille",
           style: TextStyle(
             color: Colors.black,
+            fontSize: 25,
           ),
         ),
-        backgroundColor: const Color(0xFFFFFBFE),
-        elevation: 0,
-        centerTitle: true,
+        backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
+        elevation: 0, //Retire l'ombre sous l'Appbar
+        centerTitle: true, //Permet de centrer le texte
       ),
       body: const RootPage(),
     );
@@ -48,12 +49,12 @@ class _AccueilPageState extends State<RootPage> {
             children: [
               Column(
                 children: [
-                  const Text(
-                    '<Logo ici>',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
+                  const Icon(
+                    //ExactAssetImage('assets/images/Logo VitaVille noir.jpg')), (Voir comment intégrer le logo)
+                    Icons.calendar_month_outlined,
+                    color: Colors.black,
+                    size: 69.0, //Nice
+                    semanticLabel: 'Logo',
                   ),
 
                   const Text(
