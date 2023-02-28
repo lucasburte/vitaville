@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:vitaville/accueil_page.dart';
 import 'package:vitaville/actu_page.dart';
 import 'package:vitaville/signalements_page.dart';
 import 'package:vitaville/idees_page.dart';
 import 'package:vitaville/sondages_page.dart';
 import 'package:vitaville/Profile/profile_page.dart';
-import 'package:vitaville/accueil_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +33,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   int currentPage = 0;
   List<Widget> pages = const [
+    AccueilPage(),
     ActuPage(),
     IdeesPage(),
     SignalementsPage(),
