@@ -7,7 +7,16 @@ class SondagesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sondages"),
+        title: const Text(
+          "Sondages",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
+        elevation: 0, //Retire l'ombre sous l'Appbar
+        centerTitle: true, //Permet de centrer le texte
       ),
     );
   }

@@ -7,7 +7,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profil"),
+        title: const Text(
+          "Profil",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
+        elevation: 0, //Retire l'ombre sous l'Appbar
+        centerTitle: true, //Permet de centrer le texte)
         actions: <Widget>[
           IconButton(
             onPressed: () {},
@@ -76,12 +85,12 @@ class _ProfilePageState extends State<RootPage> {
                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         Text(
-                            'John Doe',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
+                          'John Doe',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
                           ),
+                        ),
                         Text(
                           '\n26 ans',
                           style: TextStyle(
@@ -124,7 +133,6 @@ class _ProfilePageState extends State<RootPage> {
                           fontSize: 20,
                         ),
                       ),
-
                     ),
                   ),
 
