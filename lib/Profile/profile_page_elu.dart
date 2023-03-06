@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vitaville/Profile/profile_page_elu.dart';
+import 'package:vitaville/Profile/profile_page.dart';
+import 'admin_equipe.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilElu extends StatelessWidget {
+  const ProfilElu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class ProfilePage extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
         elevation: 0, //Retire l'ombre sous l'Appbar
-        centerTitle: true, //Permet de centrer le texte
+        centerTitle: true, //Permet de centrer le texte)
         actions: <Widget>[
           IconButton(
             onPressed: () {},
@@ -157,16 +158,16 @@ class _ProfilePageState extends State<RootPage> {
                     child: OutlinedButton.icon(
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>const ProfilElu()));
+                            MaterialPageRoute(builder: (context)=>const ProfilePage()));
                       },
                       icon: const Icon(
                         Icons.sync,
                         color: Colors.black,
                         size: 15.0,
-                        semanticLabel: 'Accéder au profil élu',
+                        semanticLabel: 'Accéder au profil habitant',
                       ),
                       label: const Text(
-                        'Acccéder au profil élu',
+                        'Acccéder au profil habitant',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
@@ -185,20 +186,20 @@ class _ProfilePageState extends State<RootPage> {
               //Buttons for redirections
               Column(
                 children: [
-                  //Bouton Actualités favorites
+                  //Bouton Actualités
                   SizedBox(
                     width: size.width,
                     height: 40,
                     child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(
-                        Icons.star_border_outlined,
+                        Icons.newspaper,
                         color: Colors.black,
                         size: 24.0,
-                        semanticLabel: 'Mes actualités favorites',
+                        semanticLabel: 'Accéder aux actualités',
                       ),
                       label: const Text(
-                        'Mes actualités favorites',
+                        'Actualités',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -212,34 +213,7 @@ class _ProfilePageState extends State<RootPage> {
                     height: 10,
                   ),
 
-                  //Bouton Mon calendrier
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black,
-                        size: 24.0,
-                        semanticLabel: 'Accéder à mon calendrier',
-                      ),
-                      label: const Text(
-                        'Mon calendrier',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  //Espacement
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  //Bouton Mes idées
+                  //Bouton Boite à idées
                   SizedBox(
                     width: double.infinity,
                     height: 40,
@@ -249,10 +223,10 @@ class _ProfilePageState extends State<RootPage> {
                         Icons.how_to_vote,
                         color: Colors.black,
                         size: 24.0,
-                        semanticLabel: 'Mes idées',
+                        semanticLabel: 'Accéder à la boîte à idées',
                       ),
                       label: const Text(
-                        'Mes idées',
+                        'Boîte à idées',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -266,7 +240,7 @@ class _ProfilePageState extends State<RootPage> {
                     height: 10,
                   ),
 
-                  //Bouton Mes signalements
+                  //Bouton Signalements
                   SizedBox(
                     width: double.infinity,
                     height: 40,
@@ -276,10 +250,67 @@ class _ProfilePageState extends State<RootPage> {
                         Icons.warning_amber_rounded,
                         color: Colors.black,
                         size: 24.0,
-                        semanticLabel: 'Mes signalements',
+                        semanticLabel: 'Accéder aux signalements',
                       ),
                       label: const Text(
-                        'Mes signalements',
+                        'Signalements',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  //Espacement
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  //Bouton Sondages
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.poll,
+                        color: Colors.black,
+                        size: 24.0,
+                        semanticLabel: 'Accéder aux sondages',
+                      ),
+                      label: const Text(
+                        'Sondages',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  //Espacement
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  //Bouton Administration équipe
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=>const AdminEquipe()));
+                      },
+                      icon: const Icon(
+                        Icons.groups,
+                        color: Colors.black,
+                        size: 24.0,
+                        semanticLabel: "Accéder à l'équipe",
+                      ),
+                      label: const Text(
+                        "Administrer l'équipe",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
