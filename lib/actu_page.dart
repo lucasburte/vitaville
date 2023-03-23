@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:vitaville/learn_flutter_page.dart';
 
 class ActuPage extends StatelessWidget {
   const ActuPage({super.key});
