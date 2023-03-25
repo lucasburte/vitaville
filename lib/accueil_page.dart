@@ -166,7 +166,7 @@ class _ConnexionPageState extends State<ConnexionPage> {
       if(await _currentUser.logInUser(email, password)){
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const NavPage(),//renvoie la page actu sans la navbar jsp pourquoi
+            builder: (context) => const ActuPage(),//renvoie la page actu sans la navbar jsp pourquoi
           ),
         );
       } else {
