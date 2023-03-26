@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vitaville/actu_page.dart';
 import 'package:vitaville/states/current_user.dart';
 import 'package:vitaville/main.dart';
+import 'package:vitaville/nav_page.dart';
 
 class AccueilPage extends StatelessWidget {
   const AccueilPage({super.key});
