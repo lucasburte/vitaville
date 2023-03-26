@@ -1,5 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vitaville/Profile/profile_page_elu.dart';
+import 'package:vitaville/states/current_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:html';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -43,6 +51,43 @@ class RootPage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<RootPage> {
+  //Elements d'un utilisateur (valeurs de défaut assignées)
+  String? name = 'Nom inconnu';
+  String? city = 'Ville inconnue';
+  bool? elected = false;
+  File? profilePicture;
+
+  //Méthode pour récupérer les infos de l'utilisateur sur Firebase
+  Future _getDataFromDatabase() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) async {
+      //print(snapshot.id); //debug
+      //print(snapshot.exists); //debug
+
+      if (snapshot.exists) {
+        print("it exists + $snapshot"); //debug
+        setState(() {
+          name = snapshot.data()!["name"];
+          city = snapshot.data()!["city"];
+          elected = snapshot.data()!["isElected"];
+          //age = snapshot.data()!["age"]; //il faut faire le calcul à partir de la date de naissance
+        });
+      } else {
+        print("nooooop");
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDataFromDatabase();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -73,7 +118,7 @@ class _ProfilePageState extends State<RootPage> {
                         child: const CircleAvatar(
                           radius: 70,
                           //backgroundImage:
-                              //AssetImage('assets/images/default.png'),
+                          //AssetImage('assets/images/default.png'),
                         ),
                       ),
                       Positioned(
@@ -115,24 +160,17 @@ class _ProfilePageState extends State<RootPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
-                          'John Doe',
-                          style: TextStyle(
+                          name!,
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          '\n26 ans',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Text(
-                          '\nHabite à Nancy',
-                          style: TextStyle(
+                          '\n${city!}',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
@@ -156,8 +194,10 @@ class _ProfilePageState extends State<RootPage> {
                     height: 30,
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>const ProfilElu()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProfilElu()));
                       },
                       icon: const Icon(
                         Icons.sync,
