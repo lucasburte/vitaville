@@ -11,6 +11,25 @@ class ActuPage extends StatefulWidget {
 }
 
 class _ActuPageState extends State<ActuPage> {
+  List<String> docIDs = [];
+
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('actus').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              print(document.reference);
+              docIDs.add(document.reference
+                  .id); //add tous les docIDs pour chaque refresh --> doublons dans la liste des actus affichées
+            },
+          ),
+        );
+  }
+
+  @override
+  State<ActuPage> createState() => _ActuPageState();
+}
+
+class _ActuPageState extends State<ActuPage> {
   List<String> docIDs = []; //liste des id des actus
   final TextEditingController _searchController = TextEditingController(); //controller pour la barre de recherche
 
@@ -44,18 +63,15 @@ class _ActuPageState extends State<ActuPage> {
           elevation: 0, //Retire l'ombre sous l'Appbar
           centerTitle: true, //Permet de centrer le texte
         ),
-        body:
-        Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //buildFloatingSearchBar(), //search bar qui marche pas
               Expanded(
                 child: FutureBuilder(
                     future: getDocId(),
                     builder: (context, snapshot) {
                       return ListView.builder(
-
                         itemCount: docIDs.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -86,9 +102,6 @@ class GetActus extends StatelessWidget {
 
   GetActus({required this.documentId});
 
-
-
-
   @override
   Widget build(BuildContext context) {
     CollectionReference actus = FirebaseFirestore.instance.collection('actus');
@@ -98,7 +111,7 @@ class GetActus extends StatelessWidget {
       builder: (((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
-          snapshot.data!.data() as Map<String, dynamic>;
+              snapshot.data!.data() as Map<String, dynamic>;
           return Container(
             key: _key1,
             decoration: BoxDecoration(
@@ -127,16 +140,16 @@ class GetActus extends StatelessWidget {
                         children: [
                           SizedBox(
                             height: 68,
-                            width: 200,
+                            width: 245,
                             child: ListTile(
-                              title :Text('${data['title']}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17.0,
+                                title :Text('${data['title']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17.0,
+                                  ),
                                 ),
-                              ),
-                              //Text(DateTime.fromMillisecondsSinceEpoch(data['publication_date']*1000)), //TimeStamp to DateTime to String
-                              subtitle: const Text('il y a un jour'), //en attendant d'arriver à mettre la date de publication
+                                //Text(DateTime.fromMillisecondsSinceEpoch(data['publication_date']*1000)), //TimeStamp to DateTime to String
+                                subtitle: const Text('il y a un jour'), //en attendant d'arriver à mettre la date de publication
                             ),
                           ),
                         ],
@@ -157,19 +170,22 @@ class GetActus extends StatelessWidget {
                     ],
                   ),
                 ),
-                  Row(
-                      children: [
-                        Image.asset("lib/assets/images/eau.jpg", width: 310)
-                      ],
-                  ),
+                Row(
+                  //photo d'illustration
+                  children: [
+                    Image.asset("lib/assets/images/eau.jpg",
+                    width: 342,//récupérer la largeur du container
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 10,),
                 Row(
                   //date, lieu
                   children: [
                     Text('   '+'${data['place']}' + ' le 14/04/2023',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
                     ),
                   ],
                 ),

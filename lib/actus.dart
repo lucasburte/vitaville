@@ -33,9 +33,9 @@ class Actus {
     required this.title,
     required this.type,
   })
-      : this.end_date = end_date ?? DateTime.now(),
-        this.start_date = start_date ?? DateTime.now(),
-        this.publication_date = publication_date ?? DateTime.now();
+  : this.end_date = end_date ?? DateTime.now(),
+    this.start_date = start_date ?? DateTime.now(),
+    this.publication_date = publication_date ?? DateTime.now();
 
   Map<String, dynamic> toJson() => {
     'author_id' : author_id,
@@ -67,4 +67,4 @@ class Actus {
     type: json['type'],
   );
 
-}
+  }
