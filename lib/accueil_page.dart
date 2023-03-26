@@ -5,7 +5,6 @@ import 'package:vitaville/states/current_user.dart';
 import 'package:vitaville/main.dart';
 import 'package:vitaville/nav_page.dart';
 
-
 class AccueilPage extends StatelessWidget {
   const AccueilPage({super.key});
 
@@ -148,7 +147,8 @@ class _AccueilPageState extends State<RootPage> {
   }
 }
 
-class ConnexionPage extends StatefulWidget {//page de connexion
+class ConnexionPage extends StatefulWidget {
+  //page de connexion
   const ConnexionPage({super.key});
 
   @override
@@ -156,28 +156,31 @@ class ConnexionPage extends StatefulWidget {//page de connexion
 }
 
 class _ConnexionPageState extends State<ConnexionPage> {
-  TextEditingController _emailController = TextEditingController();//vérifier les champs inscrits
+  TextEditingController _emailController =
+      TextEditingController(); //vérifier les champs inscrits
   TextEditingController _passwordController = TextEditingController();
 
-  void _loginUser(String email, String password, BuildContext context)async{
+  void _loginUser(String email, String password, BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
 
-    try{ //une fois que l'utilisateur est connecté, envoie vers les actus
-      if(await _currentUser.logInUser(email, password)){
+    try {
+      //une fois que l'utilisateur est connecté, envoie vers les actus
+      if (await _currentUser.logInUser(email, password)) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const ActuPage(),//renvoie la page actu sans la navbar jsp pourquoi
+            builder: (context) =>
+                const ActuPage(), //renvoie la page actu sans la navbar jsp pourquoi
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Identifiants incorrects"),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
-    } catch (e){
+          const SnackBar(
+            content: Text("Identifiants incorrects"),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
       print(e);
     }
   }
@@ -236,41 +239,53 @@ class _ConnexionPageState extends State<ConnexionPage> {
                       ),
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.alternate_email), hintText: "Votre adresse mail",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.alternate_email),
+                          hintText: "Votre adresse mail",
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_outline), hintText: "Votre mot de passe",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.lock_outline),
+                          hintText: "Votre mot de passe",
+                        ),
                         obscureText: true,
                       ),
-                      const SizedBox(height: 20.0,),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       ElevatedButton(
-                        child: const Padding(padding: EdgeInsets.symmetric(horizontal: 80),
-                        child: Text(
-                          'Se connecter',
-                          style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 80),
+                          child: Text(
+                            'Se connecter',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ),
-                        ),
-                        onPressed: (){
-                          _loginUser(_emailController.text, _passwordController.text, context);
+                        onPressed: () {
+                          _loginUser(_emailController.text,
+                              _passwordController.text, context);
                         },
                       ),
                       TextButton(
-                        //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CreationComptePage()));
-                        },
-                        child: const Text("Pas de compte ? Inscrivez-vous ici")),
+                          //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CreationComptePage()));
+                          },
+                          child:
+                              const Text("Pas de compte ? Inscrivez-vous ici")),
                     ],
                   ),
                 )
@@ -290,25 +305,26 @@ class CreationComptePage extends StatefulWidget {
   State<CreationComptePage> createState() => _CreationComptePageState();
 }
 
-class _CreationComptePageState extends State<CreationComptePage> {//page de création de compte
-TextEditingController _pseudoController = TextEditingController();
-TextEditingController _emailController = TextEditingController();
-TextEditingController _passwordController = TextEditingController();
-TextEditingController _confirmPasswordController = TextEditingController();
+class _CreationComptePageState extends State<CreationComptePage> {
+  //page de création de compte
+  TextEditingController _pseudoController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
-void _signUpUser(String email, String password, BuildContext context) async {
-  CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen:false);
+  void _signUpUser(String email, String password, BuildContext context) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
 
-  try {
-    if (await _currentUser.signUpUser(email, password)) {
-      Navigator.pop(context);
+    try {
+      if (await _currentUser.signUpUser(email, password)) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e){
-    print(e);
   }
-}
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -364,21 +380,30 @@ void _signUpUser(String email, String password, BuildContext context) async {
                       ),
                       TextFormField(
                         controller: _pseudoController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.person), hintText: "Votre pseudo",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          hintText: "Votre pseudo",
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.alternate_email), hintText: "Votre adresse mail",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.alternate_email),
+                          hintText: "Votre adresse mail",
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.lock_outline), hintText: "Votre mot de passe",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.lock_outline),
+                          hintText: "Votre mot de passe",
+                        ),
                         obscureText: true,
                       ),
                       const SizedBox(
@@ -386,30 +411,40 @@ void _signUpUser(String email, String password, BuildContext context) async {
                       ),
                       TextFormField(
                         controller: _confirmPasswordController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.lock), hintText: "Confirmer le mot de passe",),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          hintText: "Confirmer le mot de passe",
+                        ),
                         obscureText: true,
                       ),
-                      const SizedBox(height: 20.0,),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       ElevatedButton(
-                        child: const Padding(padding: EdgeInsets.symmetric(horizontal: 65),
-                        child: Text(
-                          'Créer un compte',
-                          style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 65),
+                          child: Text(
+                            'Créer un compte',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ),
-                        ),
-                        onPressed: (){//vérifier que les deux mots de passe correspondent
-                          if (_passwordController.text == _confirmPasswordController.text){
-                            _signUpUser(_emailController.text, _passwordController.text, context);
+                        onPressed: () {
+                          //vérifier que les deux mots de passe correspondent
+                          if (_passwordController.text ==
+                              _confirmPasswordController.text) {
+                            _signUpUser(_emailController.text,
+                                _passwordController.text, context);
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Les mots de passes ne correspondent pas"),
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  "Les mots de passes ne correspondent pas"),
                               duration: Duration(seconds: 3),
-                              )
-                            );
+                            ));
                           }
                         },
                       ),
