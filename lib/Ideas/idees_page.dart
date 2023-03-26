@@ -1,23 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:vitaville/Ideas/add_idea_page.dart';
 
 class IdeesPage extends StatelessWidget {
   const IdeesPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          colorSchemeSeed: const Color(0xff6750a4), useMaterial3: true),
-      home: const IdeasHome(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class IdeasHome extends StatelessWidget {
-  const IdeasHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +16,7 @@ class IdeasHome extends StatelessWidget {
             CustomMap(),
             CustomHeader(),
             CustomHorizontallyScrollingRestaurants(),
-           /* DraggableScrollableSheet(
+            /* DraggableScrollableSheet(
               initialChildSize: 0.30,
               minChildSize: 0.15,
               builder: (BuildContext context, ScrollController scrollController) {
@@ -41,14 +29,9 @@ class IdeasHome extends StatelessWidget {
           ],
         ),
         floatingActionButton:
-            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Column(mainAxisAlignment: MainAxisAlignment.end, children: [
           FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const IdeaForm()),
-              );
-            },
+            onPressed: null,
             child: const Icon(Icons.my_location),
           ),
           SizedBox(
@@ -58,15 +41,41 @@ class IdeasHome extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const IdeaForm()),
+                MaterialPageRoute(builder: (context) => const AddIdeaPage()),
               );
             },
             child: const Icon(Icons.add),
           ),
         ]
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
+  }
+}
+
+class GetIdeasDb {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+
+  Future<bool> getAllIdeas() async {
+    bool retVal = false;
+
+    try {
+      db.collection("ideas").get().then(
+            (querySnapshot) {
+          print("Successfully completed");
+          for (var docSnapshot in querySnapshot.docs) {
+            print('${docSnapshot.id} => ${docSnapshot.data()}');
+          }
+        },
+        onError: (e) => print("Error completing: $e"),
+      );
+
+      retVal = true;
+    } catch (e) {
+      print(e);
+    }
+
+    return retVal;
   }
 }
 
@@ -409,24 +418,3 @@ class CustomFeaturedItem extends StatelessWidget {
   }
 }
 
-class IdeaForm extends StatelessWidget {
-  const IdeaForm({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Déposer une idée",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-          ),
-        ),
-        backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
-        elevation: 0, //Retire l'ombre sous l'Appbar
-        centerTitle: true, //Permet de centrer le texte
-      ),
-    );
-  }
-}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitaville/actu_page.dart';
 import 'package:vitaville/signalements_page.dart';
-import 'package:vitaville/idees_page.dart';
+import 'package:vitaville/Ideas/idees_page.dart';
 import 'package:vitaville/sondages_page.dart';
 import 'package:vitaville/Profile/profile_page.dart';
 

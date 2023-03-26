@@ -164,10 +164,11 @@ class _ConnexionPageState extends State<ConnexionPage> {
 
     try{ //une fois que l'utilisateur est connecté, envoie vers les actus
       if(await _currentUser.logInUser(email, password)){
-        Navigator.of(context).push(
+        Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(
             builder: (context) => const NavPage(),//renvoie la page actu sans la navbar jsp pourquoi
           ),
+                (_) => false
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
