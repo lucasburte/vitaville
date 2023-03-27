@@ -2,21 +2,65 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:vitaville/Ideas/add_idea_page.dart';
+import '../states/current_user.dart';
 
-class IdeesPage extends StatelessWidget {
+class IdeesPage extends StatefulWidget {
   const IdeesPage({super.key});
 
   @override
+  State<IdeesPage> createState() => _IdeesPageState();
+}
+
+class _IdeesPageState extends State<IdeesPage> {
+  /*List listIdeas = [];
+  String uid = "";
+
+  void _getUserUid(BuildContext context) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    uid = _currentUser.getUid;
+  }*/
+  @override
+  void initState() {
+    _getThingsOnStartup().then((value){
+      print('Async done');
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  Future _getThingsOnStartup() async {
+    await Future.delayed(Duration(seconds: 2));
+  }
+
+
+/*
+    print("test");
+    getData();
+    _getUserUid(context);
+    print("uid : $uid");
+    print(listIdeas);
+
+  void getData() async {
+    listIdeas = (await GetIdeasDb().getAllIdeas())!;
+    setState(() {});
+  }*/
+/*
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            CustomMap(),
-            CustomHeader(),
-            CustomHorizontallyScrollingRestaurants(),
-            /* DraggableScrollableSheet(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: <Widget>[
+          CustomMap(),
+          CustomHeader(),
+         // CustomHorizontallyScrollingRestaurants(listIdeas),
+          /* DraggableScrollableSheet(
               initialChildSize: 0.30,
               minChildSize: 0.15,
               builder: (BuildContext context, ScrollController scrollController) {
@@ -26,46 +70,60 @@ class IdeesPage extends StatelessWidget {
                 );
               },
             ),*/
-          ],
+        ],
+      ),
+      floatingActionButton:
+      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+          onPressed: null,
+          child: const Icon(Icons.my_location),
         ),
-        floatingActionButton:
-        Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          FloatingActionButton(
-            onPressed: null,
-            child: const Icon(Icons.my_location),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AddIdeaPage()),
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
-        ]
+        SizedBox(
+          height: 10,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddIdeaPage()),
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+      ]
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
-  }
+  }*/
+/*
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
+      body: Center(
+        child: Text('Welcome $name!'),
+      ),
+    );
+  }*/
 }
 
 class GetIdeasDb {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<bool> getAllIdeas() async {
+  Future<List> getAllIdeas() async {
     bool retVal = false;
+    List listIdeas = [];
 
     try {
       db.collection("ideas").get().then(
             (querySnapshot) {
           print("Successfully completed");
-          for (var docSnapshot in querySnapshot.docs) {
+          listIdeas = querySnapshot.docs;
+          /*for (var docSnapshot in querySnapshot.docs) {
             print('${docSnapshot.id} => ${docSnapshot.data()}');
-          }
+          }*/
         },
         onError: (e) => print("Error completing: $e"),
       );
@@ -75,7 +133,7 @@ class GetIdeasDb {
       print(e);
     }
 
-    return retVal;
+    return listIdeas;
   }
 }
 
@@ -255,7 +313,7 @@ class CustomInnerContent extends StatelessWidget {
         //SizedBox(height: 16),
         //CustomExploreBerlin(),
         SizedBox(height: 16),
-        CustomHorizontallyScrollingRestaurants(),
+        //CustomHorizontallyScrollingRestaurants(),
         SizedBox(height: 24),
         CustomFeaturedListsText(),
         SizedBox(height: 16),
@@ -296,29 +354,32 @@ class CustomExploreBerlin extends StatelessWidget {
 }
 
 class CustomHorizontallyScrollingRestaurants extends StatelessWidget {
+  List listIdeas;
+  CustomHorizontallyScrollingRestaurants(listIdeas, {super.key}): this.listIdeas = listIdeas;
+
   @override
   Widget build(BuildContext context) {
     return Align(
-        alignment: FractionalOffset.bottomCenter,
-        child: Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 16, right:80),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-          ],
+      alignment: FractionalOffset.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, bottom: 16, right:80),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomRestaurantCategory(listIdeas[0]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[1]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[2]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[3]),
+              SizedBox(width: 12),
+            ],
+          ),
         ),
       ),
-        ),
     );
   }
 }
@@ -392,15 +453,18 @@ class CustomRecentPhotosSmall extends StatelessWidget {
 }
 
 class CustomRestaurantCategory extends StatelessWidget {
+  DocumentSnapshot idea;
+  CustomRestaurantCategory(idea, {super.key}): this.idea = idea;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 80,
       width: 200,
       decoration: BoxDecoration(
-        color: Colors.grey[500],
-        borderRadius: BorderRadius.circular(8),
-      ),
+          color: Colors.grey[500],
+          borderRadius: BorderRadius.circular(8)),
+      child: Text('${idea.data()}'),
     );
   }
 }
