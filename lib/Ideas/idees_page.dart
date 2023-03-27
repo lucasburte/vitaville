@@ -45,11 +45,11 @@ class _IdeesPageState extends State<IdeesPage> {
       ),
       floatingActionButton:
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
+        const FloatingActionButton(
           onPressed: null,
-          child: const Icon(Icons.my_location),
+          child: Icon(Icons.my_location),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         FloatingActionButton(
@@ -68,35 +68,6 @@ class _IdeesPageState extends State<IdeesPage> {
   }
 }
 
-<<<<<<< HEAD
-class GetIdeasDb {
-  final FirebaseFirestore db = FirebaseFirestore.instance;
-
-  Future<bool> getAllIdeas() async {
-    bool retVal = false;
-
-    try {
-      db.collection("ideas").get().then(
-            (querySnapshot) {
-          print("Successfully completed");
-          for (var docSnapshot in querySnapshot.docs) {
-            print('${docSnapshot.id} => ${docSnapshot.data()}');
-          }
-        },
-        onError: (e) => print("Error completing: $e"),
-      );
-
-      retVal = true;
-    } catch (e) {
-      print(e);
-    }
-
-    return retVal;
-  }
-}
-
-=======
->>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
 /// Map in the background
 class CustomMap extends StatelessWidget {
   @override
@@ -273,11 +244,7 @@ class CustomInnerContent extends StatelessWidget {
         //SizedBox(height: 16),
         //CustomExploreBerlin(),
         SizedBox(height: 16),
-<<<<<<< HEAD
-        CustomHorizontallyScrollingRestaurants(),
-=======
         //CustomHorizontallyScrollingRestaurants(),
->>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
         SizedBox(height: 24),
         CustomFeaturedListsText(),
         SizedBox(height: 16),
@@ -417,12 +384,9 @@ class CustomRecentPhotosSmall extends StatelessWidget {
 }
 
 class CustomRestaurantCategory extends StatelessWidget {
-<<<<<<< HEAD
-=======
   DocumentSnapshot idea;
   CustomRestaurantCategory(idea, {super.key}): this.idea = idea;
 
->>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
   @override
   Widget build(BuildContext context) {
     return Container(

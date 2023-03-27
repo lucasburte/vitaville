@@ -19,7 +19,7 @@ class _NavPageState extends State<NavPage> {
   int currentPage = 0;
   List<Widget> pages = const [
     ActuPage(),
-    IdeesPage(),
+    IdeesListePage(),
     SignalementsPage(),
     SondagesPage(),
     ProfilePage(),
