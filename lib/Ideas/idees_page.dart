@@ -14,43 +14,14 @@ class IdeesPage extends StatefulWidget {
 }
 
 class _IdeesPageState extends State<IdeesPage> {
-  /*List listIdeas = [];
+  List listIdeas = [];
   String uid = "";
 
   void _getUserUid(BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     uid = _currentUser.getUid;
-  }*/
-  @override
-  void initState() {
-    _getThingsOnStartup().then((value){
-      print('Async done');
-    });
-    super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  Future _getThingsOnStartup() async {
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-
-/*
-    print("test");
-    getData();
-    _getUserUid(context);
-    print("uid : $uid");
-    print(listIdeas);
-
-  void getData() async {
-    listIdeas = (await GetIdeasDb().getAllIdeas())!;
-    setState(() {});
-  }*/
-/*
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +30,7 @@ class _IdeesPageState extends State<IdeesPage> {
         children: <Widget>[
           CustomMap(),
           CustomHeader(),
-         // CustomHorizontallyScrollingRestaurants(listIdeas),
+          CustomHorizontallyScrollingRestaurants(listIdeas),
           /* DraggableScrollableSheet(
               initialChildSize: 0.30,
               minChildSize: 0.15,
@@ -94,46 +65,6 @@ class _IdeesPageState extends State<IdeesPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
-  }*/
-/*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: Center(
-        child: Text('Welcome $name!'),
-      ),
-    );
-  }*/
-}
-
-class GetIdeasDb {
-  final FirebaseFirestore db = FirebaseFirestore.instance;
-
-  Future<List> getAllIdeas() async {
-    bool retVal = false;
-    List listIdeas = [];
-
-    try {
-      db.collection("ideas").get().then(
-            (querySnapshot) {
-          print("Successfully completed");
-          listIdeas = querySnapshot.docs;
-          /*for (var docSnapshot in querySnapshot.docs) {
-            print('${docSnapshot.id} => ${docSnapshot.data()}');
-          }*/
-        },
-        onError: (e) => print("Error completing: $e"),
-      );
-
-      retVal = true;
-    } catch (e) {
-      print(e);
-    }
-
-    return listIdeas;
   }
 }
 
