@@ -70,11 +70,12 @@ class _AddIdeaPageState extends State<RootPage> {
 
     try{
       if(await AddIdeasDb().addIdea(user_uid, name, placename, description)){
-        Navigator.push(context,
+        Navigator.pop(context);
+        /*Navigator.push(context,
             MaterialPageRoute(
               builder: (context) => const IdeesPage(),
             ),
-        );
+        );*/
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

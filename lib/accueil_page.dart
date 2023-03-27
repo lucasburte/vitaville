@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -57,15 +55,9 @@ class _AccueilPageState extends State<RootPage> {
           child: Column(
             children: [
               Column(
-                children: [
-                  const Icon(
-                    //ExactAssetImage('assets/images/Logo VitaVille noir.jpg')), (Voir comment intégrer le logo)
-                    Icons.calendar_month_outlined,
-                    color: Colors.black,
-                    size: 69.0, //Nice
-                    semanticLabel: 'Logo',
-                  ),
-
+                children: [Image.asset("lib/assets/images/logo.png",
+                  width: 100,//récupérer la largeur du container
+                ),
                   const Text(
                     '\nTrouvez votre ville',
                     style: TextStyle(
@@ -74,13 +66,7 @@ class _AccueilPageState extends State<RootPage> {
                     ),
                   ),
 
-                  const Text(
-                    '\n<Barre de recherche ici>',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
+                  CustomSearchContainer(),
 
                   //Espacement
                   const SizedBox(
@@ -93,7 +79,7 @@ class _AccueilPageState extends State<RootPage> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF6750A4),
+                        backgroundColor: const Color(0xFFE8DEF8),
                       ),
                       onPressed: () {
                         //A l'appui, renvoie la page de création de compte
@@ -106,7 +92,7 @@ class _AccueilPageState extends State<RootPage> {
                       child: const Text(
                         'Créer un compte',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                       ),
@@ -124,7 +110,7 @@ class _AccueilPageState extends State<RootPage> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE8DEF8),
+                        backgroundColor: const Color(0xFF6750A4),
                       ),
                       onPressed: () {
                         //à l'appui, renvoie la page de connexion
@@ -134,9 +120,9 @@ class _AccueilPageState extends State<RootPage> {
                                 builder: (context) => const ConnexionPage()));
                       },
                       child: const Text(
-                        'Se Connecter',
+                        'Se connecter',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
@@ -208,9 +194,11 @@ class _ConnexionPageState extends State<ConnexionPage> {
             child: ListView(
               padding: const EdgeInsets.all(20.0),
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.all(40.0),
-                  child: Text("Image du logo ici"),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(120, 0, 120, 0),
+                  child: Image.asset("lib/assets/images/logo.png",
+                    width: 10,//récupérer la largeur du container
+                  ),
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -269,13 +257,15 @@ class _ConnexionPageState extends State<ConnexionPage> {
                         height: 20.0,
                       ),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6750A4),
+                        ),
                         child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 80),
+                          padding: EdgeInsets.symmetric(horizontal: 40),
                           child: Text(
                             'Se connecter',
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                               fontSize: 20.0,
                             ),
                           ),
@@ -418,14 +408,14 @@ class _CreationComptePageState extends State<CreationComptePage> {
             child: ListView(
               padding: const EdgeInsets.all(20.0),
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    BackButton(),
-                  ],
+                Padding(
+                  padding: EdgeInsets.fromLTRB(120, 0, 120, 0),
+                  child: Image.asset("lib/assets/images/logo.png",
+                    width: 10,//récupérer la largeur du container
+                  ),
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 20.0,
                 ),
                 Container(
                   padding: EdgeInsets.all(20.0),
@@ -502,13 +492,15 @@ class _CreationComptePageState extends State<CreationComptePage> {
                         height: 20.0,
                       ),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6750A4),
+                        ),
                         child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 65),
+                          padding: EdgeInsets.symmetric(horizontal: 40),
                           child: Text(
                             'Créer un compte',
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                               fontSize: 20.0,
                             ),
                           ),
@@ -537,6 +529,56 @@ class _CreationComptePageState extends State<CreationComptePage> {
           )
         ],
       ),
+    );
+  }
+}
+
+class CustomSearchContainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 16, 0, 8), //adjust "40" according to the status bar size
+      child: Container(
+        height: 50,
+
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: Colors.grey)),
+        child: Row(
+          children: <Widget>[
+            SizedBox(width: 16),
+            CustomTextField(),
+            SizedBox(width: 16),
+            Icon(Icons.search),
+            SizedBox(width: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: TextFormField(
+        maxLines: 1,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          hintText: "Rechercher",
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomUserAvatar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 32,
+      width: 32,
+      decoration: BoxDecoration(color: Colors.grey[500], borderRadius: BorderRadius.circular(16)),
     );
   }
 }
