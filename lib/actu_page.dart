@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'actus.dart';
 import 'package:intl/intl.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class ActuPage extends StatefulWidget {
   const ActuPage({super.key});
@@ -11,19 +12,71 @@ class ActuPage extends StatefulWidget {
 }
 
 class _ActuPageState extends State<ActuPage> {
-  List<String> docIDs = [];
+  List<String> docIDs = []; //liste des id des actus
+  final TextEditingController _searchController = TextEditingController(); //controller pour la barre de recherche
 
-  Future getDocId() async {
+
+  Future getDocId() async { //à chaque reload, vide la liste des actus pour ne pas avoir de doublons
+    if(docIDs.isNotEmpty){
+      docIDs.clear();
+    }
     await FirebaseFirestore.instance.collection('actus').get().then(
-          (snapshot) => snapshot.docs.forEach(
-            (document) {
-              print(document.reference);
-              docIDs.add(document.reference
-                  .id); //add tous les docIDs pour chaque refresh --> doublons dans la liste des actus affichées
-            },
-          ),
-        );
+      (snapshot) => snapshot.docs.forEach(
+           (document) {
+             print(document.reference);
+             docIDs.add(document.reference.id); //add tous les docIDs pour chaque refresh --> doublons dans la liste des actus affichées
+           },
+      ),
+    );
   }
+  Widget buildFloatingSearchBar() {
+  final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
+  return FloatingSearchBar(
+    hint: 'Rechercher un post',
+    scrollPadding: const EdgeInsets.only(top: 16, bottom: 10),
+    transitionDuration: const Duration(milliseconds: 800),
+    transitionCurve: Curves.easeInOut,
+    physics: const BouncingScrollPhysics(),
+    axisAlignment: isPortrait ? 0.0 : -1.0,
+    openAxisAlignment: 0.0,
+    width: isPortrait ? 300 : 250,
+    debounceDelay: const Duration(milliseconds: 500),
+    onQueryChanged: (query) {
+      // Call your model, bloc, controller here.
+    },
+    // Specify a custom transition to be used for
+    // animating between opened and closed stated.
+    transition: CircularFloatingSearchBarTransition(),
+    actions: [
+      FloatingSearchBarAction(
+        showIfOpened: false,
+        child: CircularButton(
+          icon: const Icon(Icons.place),
+          onPressed: () {},
+        ),
+      ),
+      FloatingSearchBarAction.searchToClear(
+        showIfClosed: false,
+      ),
+    ],
+    builder: (context, transition) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Material(
+          color: Colors.white,
+          elevation: 4.0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: Colors.accents.map((color) {
+              return Container(height: 112, color: color);
+            }).toList(),
+          ),
+        ),
+      );
+    },
+  );
+}
 
   @override
   State<ActuPage> createState() => _ActuPageState();
@@ -63,15 +116,18 @@ class _ActuPageState extends State<ActuPage> {
           elevation: 0, //Retire l'ombre sous l'Appbar
           centerTitle: true, //Permet de centrer le texte
         ),
-        body: Center(
+        body: 
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //buildFloatingSearchBar(), //search bar qui marche pas
               Expanded(
                 child: FutureBuilder(
                     future: getDocId(),
                     builder: (context, snapshot) {
                       return ListView.builder(
+                        
                         itemCount: docIDs.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -101,6 +157,9 @@ class GetActus extends StatelessWidget {
   final _key1 = GlobalKey();
 
   GetActus({required this.documentId});
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -227,3 +286,4 @@ class GetActus extends StatelessWidget {
     );
   }
 }
+
