@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vitaville/Profile/profile_page_elu.dart';
 import 'package:vitaville/states/current_user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:html';
+//import 'dart:html';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -55,7 +54,7 @@ class _ProfilePageState extends State<RootPage> {
   String? name = 'Nom inconnu';
   String? city = 'Ville inconnue';
   bool? elected = false;
-  File? profilePicture;
+  //File? profilePicture;
 
   //Méthode pour récupérer les infos de l'utilisateur sur Firebase
   Future _getDataFromDatabase() async {
