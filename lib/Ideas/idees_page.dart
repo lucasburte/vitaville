@@ -2,21 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:vitaville/Ideas/add_idea_page.dart';
+import '../states/current_user.dart';
 
-class IdeesPage extends StatelessWidget {
+class IdeesPage extends StatefulWidget {
   const IdeesPage({super.key});
+
+  @override
+  State<IdeesPage> createState() => _IdeesPageState();
+}
+
+class _IdeesPageState extends State<IdeesPage> {
+  List listIdeas = [];
+  String uid = "";
+
+  void _getUserUid(BuildContext context) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    uid = _currentUser.getUid;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            CustomMap(),
-            CustomHeader(),
-            CustomHorizontallyScrollingRestaurants(),
-            /* DraggableScrollableSheet(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: <Widget>[
+          CustomMap(),
+          CustomHeader(),
+          CustomHorizontallyScrollingRestaurants(listIdeas),
+          /* DraggableScrollableSheet(
               initialChildSize: 0.30,
               minChildSize: 0.15,
               builder: (BuildContext context, ScrollController scrollController) {
@@ -26,33 +41,34 @@ class IdeesPage extends StatelessWidget {
                 );
               },
             ),*/
-          ],
+        ],
+      ),
+      floatingActionButton:
+      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+          onPressed: null,
+          child: const Icon(Icons.my_location),
         ),
-        floatingActionButton:
-        Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          FloatingActionButton(
-            onPressed: null,
-            child: const Icon(Icons.my_location),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AddIdeaPage()),
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
-        ]
+        SizedBox(
+          height: 10,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddIdeaPage()),
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+      ]
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 }
 
+<<<<<<< HEAD
 class GetIdeasDb {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -79,6 +95,8 @@ class GetIdeasDb {
   }
 }
 
+=======
+>>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
 /// Map in the background
 class CustomMap extends StatelessWidget {
   @override
@@ -255,7 +273,11 @@ class CustomInnerContent extends StatelessWidget {
         //SizedBox(height: 16),
         //CustomExploreBerlin(),
         SizedBox(height: 16),
+<<<<<<< HEAD
         CustomHorizontallyScrollingRestaurants(),
+=======
+        //CustomHorizontallyScrollingRestaurants(),
+>>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
         SizedBox(height: 24),
         CustomFeaturedListsText(),
         SizedBox(height: 16),
@@ -296,29 +318,32 @@ class CustomExploreBerlin extends StatelessWidget {
 }
 
 class CustomHorizontallyScrollingRestaurants extends StatelessWidget {
+  List listIdeas;
+  CustomHorizontallyScrollingRestaurants(listIdeas, {super.key}): this.listIdeas = listIdeas;
+
   @override
   Widget build(BuildContext context) {
     return Align(
-        alignment: FractionalOffset.bottomCenter,
-        child: Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 16, right:80),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-          ],
+      alignment: FractionalOffset.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, bottom: 16, right:80),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomRestaurantCategory(listIdeas[0]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[1]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[2]),
+              SizedBox(width: 12),
+              CustomRestaurantCategory(listIdeas[3]),
+              SizedBox(width: 12),
+            ],
+          ),
         ),
       ),
-        ),
     );
   }
 }
@@ -392,15 +417,21 @@ class CustomRecentPhotosSmall extends StatelessWidget {
 }
 
 class CustomRestaurantCategory extends StatelessWidget {
+<<<<<<< HEAD
+=======
+  DocumentSnapshot idea;
+  CustomRestaurantCategory(idea, {super.key}): this.idea = idea;
+
+>>>>>>> 173b8730b07a24580c80006cc65abc6f28326832
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 80,
       width: 200,
       decoration: BoxDecoration(
-        color: Colors.grey[500],
-        borderRadius: BorderRadius.circular(8),
-      ),
+          color: Colors.grey[500],
+          borderRadius: BorderRadius.circular(8)),
+      child: Text('${idea.data()}'),
     );
   }
 }

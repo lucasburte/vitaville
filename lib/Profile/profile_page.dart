@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vitaville/Profile/profile_page_elu.dart';
 import 'package:vitaville/states/current_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:html';
+import 'package:vitaville/states/current_user.dart';
+//import 'dart:html';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -55,7 +52,7 @@ class _ProfilePageState extends State<RootPage> {
   String? name = 'Nom inconnu';
   String? city = 'Ville inconnue';
   bool? elected = false;
-  File? profilePicture;
+  //File? profilePicture;
 
   //Méthode pour récupérer les infos de l'utilisateur sur Firebase
   Future _getDataFromDatabase() async {
@@ -118,7 +115,7 @@ class _ProfilePageState extends State<RootPage> {
                         child: const CircleAvatar(
                           radius: 70,
                           //backgroundImage:
-                          //AssetImage('assets/images/default.png'),
+                              //AssetImage('assets/images/default.png'),
                         ),
                       ),
                       Positioned(
@@ -160,17 +157,24 @@ class _ProfilePageState extends State<RootPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text(
-                          name!,
-                          style: const TextStyle(
+                          'John Doe',
+                          style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          '\n${city!}',
-                          style: const TextStyle(
+                          '\n26 ans',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          '\nHabite à Nancy',
+                          style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
@@ -194,10 +198,8 @@ class _ProfilePageState extends State<RootPage> {
                     height: 30,
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ProfilElu()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=>const ProfilElu()));
                       },
                       icon: const Icon(
                         Icons.sync,

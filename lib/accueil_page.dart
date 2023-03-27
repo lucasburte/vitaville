@@ -171,17 +171,12 @@ class _ConnexionPageState extends State<ConnexionPage> {
     try {
       //une fois que l'utilisateur est connecté, envoie vers les actus
       if (await _currentUser.logInUser(email, password)) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  const NavPage(), //renvoie la page actu sans la navbar jsp pourquoi
-            ),
-            (_) => false);
-
-        AddUserDb()._getDataFromDatabase(email, password,
-            context); //Appel de la fonction permettant de créer un document sur firebase pour le user
-
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>
+                const ActuPage(), //renvoie la page actu sans la navbar jsp pourquoi
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -315,76 +310,6 @@ class CreationComptePage extends StatefulWidget {
   State<CreationComptePage> createState() => _CreationComptePageState();
 }
 
-//Classe permettant la création d'un nouveau document sur Firebase pour le user qui crée son compte
-//Création d'un nouveau document dans la collection "users"
-class AddUserDb {
-  final FirebaseFirestore db = FirebaseFirestore.instance;
-
-  bool isAlreadyCreated =
-      false; //True if the user already has a document in the collection
-
-  Future _getDataFromDatabase(
-      String email, String password, BuildContext context) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-
-    await FirebaseFirestore.instance
-        .collection("users")
-        .get()
-        .then((snapshot) {
-      int numberOfUsers = snapshot.size;
-
-      //Parcours de tous les users dans la collection users de Firebase
-      for (int i = 0; i < numberOfUsers; i++) {
-        //Vérification : est-ce que le user est déjà dans les documents de la collection Users de Firebase
-        //si non, alors il faut lui créer un document
-        if (isAlreadyCreated == false) {
-          if (snapshot.docs[i].reference.id == _currentUser.getUid) {
-            isAlreadyCreated = true;
-          } else {
-            isAlreadyCreated = false;
-          }
-        }
-      }
-    });
-
-    if (isAlreadyCreated == false) {
-      addUser(email, password, context, _currentUser);
-    }
-  }
-
-  Future<void> addUser(
-      String email, String password, BuildContext context, CurrentUser _currentUser)  async {
-    //Récupérer l'uid attribué par défaut
-    try {
-      //CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false); // =====> Génère une erreur "Looking up a deactivated widget's ancestor is unsafe."
-
-      String userID = _currentUser.getUid;
-
-      //Création du document dans la collection users avec les infos de l'utilisateur
-      try {
-        final user = <String, dynamic>{
-          "email": email,
-          "password": password,
-          "city": "non renseignée",
-          "name" : "non renseigné",
-          "elected" : false,
-        };
-
-        //Ajout du user dans un nouveau document de la collection users
-        var collectionOfUsers = db.collection('users');
-        collectionOfUsers
-            .doc(userID)
-            .set(user);
-
-      } catch (e) {
-        print("Error Catch 1 : $e");
-      }
-    } catch (e) {
-      print("Error Catch 2: $e");
-    }
-  }
-}
-
 class _CreationComptePageState extends State<CreationComptePage> {
   //page de création de compte
   TextEditingController _pseudoController = TextEditingController();
@@ -394,7 +319,6 @@ class _CreationComptePageState extends State<CreationComptePage> {
 
   void _signUpUser(String email, String password, BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    //FirebaseAuth.instance.currentUser?.displayName; //Jsp maybe ça peut être utile
 
     try {
       if (await _currentUser.signUpUser(email, password)) {
