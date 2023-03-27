@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:vitaville/Ideas/add_idea_page.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:vitaville/Ideas/details_idee.dart';
 
 class IdeesListePage extends StatefulWidget {
   const IdeesListePage({super.key});
@@ -213,6 +214,17 @@ class CustomMap extends StatelessWidget {
                 semanticLabel: 'name of place',
               ),
             ),
+            Marker(
+              point: LatLng(48.69554780857791, 6.189993601455815),
+              width: 40,
+              height: 40,
+              builder: (context) => const Icon(
+                Icons.location_on,
+                color: Colors.black,
+                size: 40.0,
+                semanticLabel: 'name of place',
+              ),
+            ),
           ],
         ),
       ],
@@ -252,7 +264,7 @@ class CustomTextField extends StatelessWidget {
         maxLines: 1,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          hintText: "Rechercher",
+          hintText: "Rechercher une idée",
           border: InputBorder.none,
         ),
       ),
@@ -288,10 +300,6 @@ class CustomHorizontallyScrollingRestaurants extends StatelessWidget {
               SizedBox(width: 12),
               CustomRestaurantCategory(),
               SizedBox(width: 12),
-              CustomRestaurantCategory(),
-              SizedBox(width: 12),
-              CustomRestaurantCategory(),
-              SizedBox(width: 12),
             ],
           ),
         ),
@@ -308,9 +316,17 @@ class CustomRestaurantCategory extends StatelessWidget {
       height: 80,
       width: 200,
       decoration: BoxDecoration(
-          color: Colors.grey[500],
+          color: Colors.white,
           borderRadius: BorderRadius.circular(8)),
-      child: Text('ddd'),
+      child: Padding(
+    padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+    child:Text('Ajouter des bancs à la Pépinière',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 11.0,
+        ),
+      ),
+      ),
     );
   }
 }
@@ -332,9 +348,14 @@ class GetIdeas extends StatelessWidget {
       future: ideas.doc(documentId).get(),
       builder: (((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          final DocumentSnapshot documentSnapshot = snapshot.data!;
           Map<String, dynamic> data =
           snapshot.data!.data() as Map<String, dynamic>;
-          return Container(
+          return InkWell(
+              onTap: (() {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => DetailIdeePage(documentSnapshot: documentSnapshot))));
+              }),
+              child : Container(
             key: _key1,
             decoration: BoxDecoration(
                 color: const Color(0xFFFFFBFE),
@@ -354,9 +375,9 @@ class GetIdeas extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                   child: Row(
-                    //titre, date publication, icones fav, calendrier, share
+                    //titre
                     children: [
                       Column(
                         children: [
@@ -371,7 +392,7 @@ class GetIdeas extends StatelessWidget {
                                 ),
                               ),
                               //Text(DateTime.fromMillisecondsSinceEpoch(data['publication_date']*1000)), //TimeStamp to DateTime to String
-                              subtitle: Text('${data['datetime_sent']}'), //en attendant d'arriver à mettre la date de publication
+                              subtitle: Text("Il y a 1 heure")//Text('${data['datetime_sent']}'), //en attendant d'arriver à mettre la date de publication
                             ),
                           ),
                         ],
@@ -379,14 +400,23 @@ class GetIdeas extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    Image.asset("lib/assets/images/eau.jpg", width: 310)
+              Padding(
+              padding: EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+              child: Row(
+                  //auteur
+                  children: const [
+                    Text('   '+ 'Marie Martin',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10,),
-                Row(
-                  //date, lieu
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+              child:Row(
+                  //lieu
                   children: [
                     Text('   '+'${data['place_name']}',
                       style: const TextStyle(
@@ -395,37 +425,42 @@ class GetIdeas extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
+            ),
+            Padding(
+              padding: EdgeInsets.all(9.0),
+              child:Row(
                   //description
                   children: [
-                    Flexible(child: Padding(padding: const EdgeInsets.all(10), child: Text('description'))), //regarder comment n'afficher qu'une partie du long texte
+                    Flexible(child: Padding(padding: const EdgeInsets.fromLTRB(9.0, 0, 0, 0), child: Text('${data['description']}'))), //regarder comment n'afficher qu'une partie du long texte
                   ],
                 ),
+            ),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Row(
                     children: [
                       Card(
-                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        color: const Color.fromARGB(255, 139, 71, 113),
                         child: SizedBox(
                           width: 70,
                           height: 25,
-                          child: Center(child: Text('tags',style: TextStyle(fontStyle: FontStyle.italic),)),
+                          child: Center(child: Text('${data['tags'][0]}',style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white,),)),
                         ),
                       ),
                       Card(
-                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        color: const Color.fromARGB(255, 139, 71, 113),
                         child: SizedBox(
                           width: 70,
                           height: 25,
-                          child: Center(child: Text('tags',style: TextStyle(fontStyle: FontStyle.italic),)),
+                          child: Center(child: Text('${data['tags'][1]}',style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),)),
                         ),
-                      ),//Text('${data['tags'][2]}'), //voir comment afficher le nombre de tags correct
+                      ),//voir comment afficher le nombre de tags correct
                     ],
                   ),
                 )
               ],
             ),
+           ),
           );
         }
         return Text("Chargement...");

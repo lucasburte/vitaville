@@ -43,6 +43,7 @@ class _ActuPageState extends State<ActuPage> {
           backgroundColor: const Color(0xFFFFFBFE), //Couleur utilisée sur Figma
           elevation: 0, //Retire l'ombre sous l'Appbar
           centerTitle: true, //Permet de centrer le texte
+          scrolledUnderElevation:0.0,
         ),
         body: 
         Center(
