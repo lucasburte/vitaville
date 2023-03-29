@@ -162,7 +162,7 @@ class GetActus extends StatelessWidget {
                     //photo d'illustration
                     children: [
                       Image.asset("lib/assets/images/eau.jpg",
-                      width: 342,//récupérer la largeur du container
+                      width: 340,//récupérer la largeur du container
                       ),
                     ],
                   ),
