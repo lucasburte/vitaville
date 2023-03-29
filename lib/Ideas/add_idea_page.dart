@@ -39,7 +39,7 @@ class RootPage extends StatefulWidget {
 class AddIdeasDb {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<bool> addIdea(String user_uid, String name, String placename,
+  Future<bool> addIdea(String user_uid, String name, String placename, String tag,
       String description) async {
     bool retVal = false;
 
@@ -48,6 +48,7 @@ class AddIdeasDb {
         "user_uid": user_uid,
         "name": name,
         "place_name": placename,
+        "tags": [tag, "test"],
         "description": description,
       };
       db.collection("ideas").add(idea).then((DocumentReference doc) =>
@@ -64,12 +65,13 @@ class AddIdeasDb {
 class _AddIdeaPageState extends State<RootPage> {
   TextEditingController _nameController = TextEditingController();//vérifier les champs inscrits
   TextEditingController _placenameController = TextEditingController();
+  TextEditingController _tagController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-  void _addIdea(String user_uid, String name, String placename, String description, BuildContext context)async{
+  void _addIdea(String user_uid, String name, String placename, String tag, String description, BuildContext context)async{
 
     try{
-      if(await AddIdeasDb().addIdea(user_uid, name, placename, description)){
+      if(await AddIdeasDb().addIdea(user_uid, name, placename, tag, description)){
         Navigator.pop(context);
         /*Navigator.push(context,
             MaterialPageRoute(
@@ -134,9 +136,11 @@ class _AddIdeaPageState extends State<RootPage> {
         Container(
           height: 50,
           margin: const EdgeInsets.all(16.0),
-          child: const Center(
-              child: TextField(
-                decoration: InputDecoration(
+          child: Center(
+              child: TextFormField(
+                controller: _tagController,
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.search),
                   labelText: "Tags",
@@ -176,7 +180,7 @@ class _AddIdeaPageState extends State<RootPage> {
                 ),
               ),
               onPressed: (){
-                _addIdea("ZQZO4hafDWPczrwwg3J9F6hO52N2", _nameController.text, _placenameController.text, _descriptionController.text, context);
+                _addIdea("ZQZO4hafDWPczrwwg3J9F6hO52N2", _nameController.text, _placenameController.text, _tagController.text, _descriptionController.text, context);
               },
             ),
     ),
